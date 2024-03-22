@@ -1,5 +1,3 @@
-import reactLogo from './assets/react.svg';
-import viteLogo from '/vite.svg';
 import './App.css';
 import {
   Route,
@@ -8,6 +6,9 @@ import {
   createRoutesFromElements,
 } from 'react-router-dom';
 import Main from './layouts/Main';
+import Home from './pages/Home';
+import Users from './pages/Users';
+import Products from './pages/Products';
 
 function App() {
   return (
@@ -16,9 +17,9 @@ function App() {
         createRoutesFromElements(
           <>
             <Route path='/' element={<Main />}>
-              <Route index element={<></>} />
-              <Route path='users' element={<p>users</p>} />
-              <Route path='products' element={<p>products</p>} />
+              <Route index element={<Home />} />
+              <Route path='users' element={<Users />} />
+              <Route path='products' element={<Products />} />
             </Route>
             <Route path='*' element={<p>error</p>} />
           </>,
