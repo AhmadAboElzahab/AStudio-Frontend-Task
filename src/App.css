@@ -1,0 +1,18 @@
+@font-face {
+  font-family: 'Neutra Text Regular';
+  src: url('./assets/neutra-text.otf') format('opentype');
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: 'Neutra Text Bold';
+  src: url('./assets/neutra-text-bold.otf') format('opentype');
+  font-weight: bold;
+}
+body {
+  font-family: 'Neutra Text Regular', sans-serif;
+}
+.halfColor {
+  font-family: 'Neutra Text Bold', sans-serif;
+  background: linear-gradient(to bottom, #ffffff 0%, #ffffff 50%, #fdc936 50%, #fdc936 100%);
+}
