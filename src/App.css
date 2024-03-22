@@ -11,6 +11,7 @@
 }
 body {
   font-family: 'Neutra Text Regular', sans-serif;
+  color: #322625;
 }
 .halfColor {
   font-family: 'Neutra Text Bold', sans-serif;
@@ -18,5 +19,5 @@ body {
 }
 td {
   border: 1px solid #ebebeb;
-  padding-left: 20px;
+  padding: 6px 0px 6px 20px;
 }
