@@ -11,6 +11,12 @@ interface User {
   bloodGroup: string;
   eyeColor: string;
 }
+type UserData = {
+  users: User[];
+  total: number;
+  skip: number;
+  limit: number;
+};
 
 interface Product {
   id: number;
@@ -19,5 +25,11 @@ interface Product {
   brand: string;
   category: string;
 }
+type ProductData = {
+  products: Product[];
+  total: number;
+  skip: number;
+  limit: number;
+};
 
-export type { User, Product };
+export type { User, UserData, Product, ProductData };
