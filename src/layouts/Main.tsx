@@ -3,7 +3,7 @@ import Breadcrumbs from '../components/Breadcrumbs';
 
 export default function Main() {
   return (
-    <div>
+    <div className='w-[60%] mx-auto pt-10'>
       <Breadcrumbs />
       <Outlet />
     </div>
