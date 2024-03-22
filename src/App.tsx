@@ -7,6 +7,7 @@ import {
   createBrowserRouter,
   createRoutesFromElements,
 } from 'react-router-dom';
+import Main from './layouts/Main';
 
 function App() {
   return (
@@ -14,9 +15,9 @@ function App() {
       router={createBrowserRouter(
         createRoutesFromElements(
           <>
-            <Route path='/' element={<></>}>
+            <Route path='/' element={<Main />}>
               <Route path='users' element={<p>users</p>} />
-              <Route path='product' element={<p>products</p>} />
+              <Route path='products' element={<p>products</p>} />
             </Route>
             <Route path='*' element={<p>error</p>} />
           </>,
