@@ -16,3 +16,7 @@ body {
   font-family: 'Neutra Text Bold', sans-serif;
   background: linear-gradient(to bottom, #ffffff 0%, #ffffff 50%, #fdc936 50%, #fdc936 100%);
 }
+td {
+  border: 1px solid #ebebeb;
+  padding-left: 20px;
+}
