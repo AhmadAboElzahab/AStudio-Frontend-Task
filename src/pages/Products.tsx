@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Product, ProductData } from '../types/type';
 import customAxios from '../lib/axios';
 import Table from '../components/Table';
@@ -24,7 +24,7 @@ export default function Products() {
     fetchUsers();
   }, []);
 
-  const renderProductRow = (product: Product, index: number) => {
+  const renderProductRow = (product: Product) => {
     return (
       <>
         <td>{product.title}</td>

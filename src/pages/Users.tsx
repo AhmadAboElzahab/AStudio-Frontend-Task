@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import  { useEffect } from 'react';
 import { User } from '../types/type';
 import Table from '../components/Table';
 import { useUserContext } from '../hooks/useUsers';
@@ -31,7 +31,7 @@ export default function Users() {
     usersDispatch({ type: 'SET_SKIP', payload: 0 });
   };
 
-  const renderUserRow = (user: User, index: number) => {
+  const renderUserRow = (user: User) => {
     return (
       <>
         <td>{user.firstName}</td>
