@@ -46,6 +46,11 @@ export const usersReducer = (state: UserData, action: { type: string; payload: a
         ...state,
         size: action.payload,
       };
+    case 'SET_SKIP':
+      return {
+        ...state,
+        skip: action.payload,
+      };
 
     default:
       return state;

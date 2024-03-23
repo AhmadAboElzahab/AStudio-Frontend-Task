@@ -10,6 +10,7 @@ export default function PageSize() {
         value={usersData.size}
         onChange={(e) => {
           usersDispatch({ type: 'SET_SIZE', payload: e.target.value });
+          usersDispatch({ type: 'SET_SKIP', payload: 0 });
         }}
       >
         <option value='5'>5</option>
