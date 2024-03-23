@@ -25,6 +25,11 @@ export default function Users() {
     fetchUsers();
   }, [usersData.skip, usersData.size, usersDispatch]);
 
+  const onPageSizeChange = (newSize: string) => {
+    usersDispatch({ type: 'SET_SIZE', payload: newSize });
+    usersDispatch({ type: 'SET_SKIP', payload: 0 });
+  };
+
   const renderUserRow = (user: User, index: number) => {
     return (
       <>
@@ -48,7 +53,8 @@ export default function Users() {
 
   return (
     <div>
-      <PageSize />
+      <PageSize data={usersData.size ?? 5} onPageSizeChange={onPageSizeChange} />
+
       <Table
         headers={[
           'First Name',

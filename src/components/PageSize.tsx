@@ -1,16 +1,17 @@
 import React from 'react';
-import { useUserContext } from '../hooks/useUsers';
-
-export default function PageSize() {
-  const { state: usersData, dispatch: usersDispatch } = useUserContext();
-
+interface PageSizeProps {
+  data: number;
+  onPageSizeChange?: (newSize: string) => void;
+}
+const PageSize: React.FC<PageSizeProps> = ({ onPageSizeChange, data }) => {
   return (
     <div>
       <select
-        value={usersData.size}
+        value={data ?? 5}
         onChange={(e) => {
-          usersDispatch({ type: 'SET_SIZE', payload: e.target.value });
-          usersDispatch({ type: 'SET_SKIP', payload: 0 });
+          if (onPageSizeChange) {
+            onPageSizeChange(e.target.value);
+          }
         }}
       >
         <option value='5'>5</option>
@@ -20,4 +21,5 @@ export default function PageSize() {
       </select>
     </div>
   );
-}
+};
+export default PageSize;
