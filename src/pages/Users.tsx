@@ -6,6 +6,7 @@ import customAxios from '../lib/axios';
 import PageSize from '../components/PageSize';
 
 import Pagination from '../components/Pagination';
+import Search from '../components/Search';
 
 export default function Users() {
   const { state: usersData, dispatch: usersDispatch } = useUserContext();
@@ -53,8 +54,10 @@ export default function Users() {
 
   return (
     <div>
-      <PageSize data={usersData.size ?? 5} onPageSizeChange={onPageSizeChange} />
-
+      <div className='flex gap-4 my-10'>
+        <PageSize data={usersData.size ?? 5} onPageSizeChange={onPageSizeChange} />
+        <Search />
+      </div>
       <Table
         headers={[
           'First Name',
