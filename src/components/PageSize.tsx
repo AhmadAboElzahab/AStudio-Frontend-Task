@@ -5,7 +5,7 @@ interface PageSizeProps {
 }
 const PageSize: React.FC<PageSizeProps> = ({ onPageSizeChange, data }) => {
   return (
-    <div>
+    <div className='pt-2'>
       <select
         value={data ?? 5}
         onChange={(e) => {

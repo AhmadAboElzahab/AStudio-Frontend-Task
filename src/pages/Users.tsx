@@ -4,20 +4,29 @@ import Table from '../components/Table';
 import { useUserContext } from '../hooks/useUsers';
 import customAxios from '../lib/axios';
 import PageSize from '../components/PageSize';
-
 import Pagination from '../components/Pagination';
 import Search from '../components/Search';
 
 export default function Users() {
   const { state: usersData, dispatch: usersDispatch } = useUserContext();
   const [searchValue, setSearchValue] = useState('');
-
+  const [selectedOption, setSelectedOption] = useState(null);
+  const filters = ['Firstname', 'Email', 'Birthdate', 'Gender'];
+  const handleCheckboxChange = (event: any) => {
+    const value = event.target.value;
+    setSelectedOption(value === selectedOption ? null : value);
+  };
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await customAxios.get(
-          `/users?limit=${usersData.size}&skip=${(usersData.skip - 1) * (usersData.size ?? 5)}`,
-        );
+        let apiUrl = `/users?limit=${usersData.size}&skip=${(usersData.skip - 1) * (usersData.size ?? 5)}`;
+
+        if (selectedOption) {
+          apiUrl = `/users/filter?key=${selectedOption}&value=${searchValue}&limit=${usersData.size}&skip=${(usersData.skip - 1) * (usersData.size ?? 5)}`;
+        }
+
+        const response = await customAxios.get(apiUrl);
+
         usersDispatch({ type: 'SET_USERS', payload: response.data });
       } catch (error) {
         console.error('Error fetching users:', error);
@@ -25,7 +34,7 @@ export default function Users() {
     };
 
     fetchUsers();
-  }, [searchValue, usersData.skip, usersData.size, usersDispatch]);
+  }, [selectedOption, searchValue, usersData.skip, usersData.size, usersDispatch]);
 
   const onPageSizeChange = (newSize: string) => {
     usersDispatch({ type: 'SET_SIZE', payload: newSize });
@@ -77,8 +86,25 @@ export default function Users() {
     <div>
       <div className='flex gap-4 my-10'>
         <PageSize data={usersData.size ?? 5} onPageSizeChange={onPageSizeChange} />
-
         <Search value={searchValue} onChange={handleSearchChange} />
+        <div className='flex pt-1'>
+          {filters.map((item, index) => (
+            <label
+              key={index}
+              className={`${selectedOption === item.toLowerCase() ? 'bg-grey' : ''} px-4 py-2 rounded hover:cursor-pointer`}
+            >
+              <input
+                className='hidden'
+                type='checkbox'
+                name={item.toLowerCase()}
+                value={item.toLowerCase()}
+                checked={selectedOption === item.toLowerCase()}
+                onChange={handleCheckboxChange}
+              />
+              {item}
+            </label>
+          ))}
+        </div>
       </div>
       <Table
         headers={[
