@@ -5,9 +5,14 @@ import Table from '../components/Table';
 import { useProductContext } from '../hooks/useProducts';
 import PageSize from '../components/PageSize';
 import Pagination from '../components/Pagination';
+import Search from '../components/Search';
 
 export default function Products() {
   const { state: productData, dispatch: productDispatch } = useProductContext();
+  const [searchValue, setSearchValue] = useState('');
+  const handleSearchChange = (newValue: string) => {
+    setSearchValue(newValue);
+  };
   const onPageSizeChange = (newSize: string) => {
     productDispatch({ type: 'SET_SIZE', payload: newSize });
     productDispatch({ type: 'SET_SKIP', payload: 0 });
@@ -16,6 +21,7 @@ export default function Products() {
   const handlePageChange = (page: number) => {
     productDispatch({ type: 'SET_SKIP', payload: page });
   };
+
   useEffect(() => {
     const fetchUsers = async () => {
       try {
@@ -30,7 +36,13 @@ export default function Products() {
 
     fetchUsers();
   }, [productData.skip, productData.size, productDispatch]);
-
+  const filteredProducts = productData.products.filter(
+    (product) =>
+      product.title.toLowerCase().includes(searchValue.toLowerCase()) ||
+      product.category.toLowerCase().includes(searchValue.toLowerCase()) ||
+      product.price.toString().toLowerCase().includes(searchValue.toLowerCase()) ||
+      product.stock.toString().toLowerCase().includes(searchValue.toLowerCase()),
+  );
   const renderProductRow = (product: Product) => {
     return (
       <>
@@ -47,10 +59,11 @@ export default function Products() {
     <div>
       <div className='flex gap-4 my-10'>
         <PageSize data={productData.size ?? 5} onPageSizeChange={onPageSizeChange} />
+        <Search value={searchValue} onChange={handleSearchChange} />
       </div>
       <Table
         headers={['Title', 'Category', 'Price', 'Rating', 'Stock']}
-        data={productData.products}
+        data={!filteredProducts ? productData.products : filteredProducts}
         renderRow={renderProductRow}
       />
       <Pagination totalPages={totalPages} onPageChange={handlePageChange} />
