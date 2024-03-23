@@ -1,4 +1,4 @@
-import { UsersContext } from '../context/usersContex';
+import { UsersContext } from '../context/z';
 import { useContext } from 'react';
 
 export const useUserContext = () => {
