@@ -1,4 +1,4 @@
-import  { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { User } from '../types/type';
 import Table from '../components/Table';
 import { useUserContext } from '../hooks/useUsers';
@@ -10,12 +10,13 @@ import Search from '../components/Search';
 
 export default function Users() {
   const { state: usersData, dispatch: usersDispatch } = useUserContext();
+  const [searchValue, setSearchValue] = useState('');
 
   useEffect(() => {
     const fetchUsers = async () => {
       try {
         const response = await customAxios.get(
-          `/users?limit=${usersData.size}&skip=${(usersData.skip - 1) * (usersData.size ?? 5)}`,
+          `/users?limit=${searchValue ? 0 : usersData.size}&skip=${searchValue ? 0 : (usersData.skip - 1) * (usersData.size ?? 5)}`,
         );
         usersDispatch({ type: 'SET_USERS', payload: response.data });
       } catch (error) {
@@ -24,7 +25,7 @@ export default function Users() {
     };
 
     fetchUsers();
-  }, [usersData.skip, usersData.size, usersDispatch]);
+  }, [searchValue, usersData.skip, usersData.size, usersDispatch]);
 
   const onPageSizeChange = (newSize: string) => {
     usersDispatch({ type: 'SET_SIZE', payload: newSize });
@@ -51,12 +52,26 @@ export default function Users() {
   const handlePageChange = (page: number) => {
     usersDispatch({ type: 'SET_SKIP', payload: page });
   };
-
+  const filteredUsers = usersData.users.filter(
+    (user) =>
+      user.firstName.toLowerCase().includes(searchValue.toLowerCase()) ||
+      user.lastName.toLowerCase().includes(searchValue.toLowerCase()) ||
+      user.email.toLowerCase().includes(searchValue.toLowerCase()) ||
+      user.username.toLowerCase().includes(searchValue.toLowerCase()),
+  );
+  const handleSearchChange = (newValue: string) => {
+    setSearchValue(newValue);
+  };
   return (
     <div>
       <div className='flex gap-4 my-10'>
-        <PageSize data={usersData.size ?? 5} onPageSizeChange={onPageSizeChange} />
-        <Search />
+        {!searchValue ? (
+          <PageSize data={usersData.size ?? 5} onPageSizeChange={onPageSizeChange} />
+        ) : (
+          ''
+        )}
+
+        <Search value={searchValue} onChange={handleSearchChange} />
       </div>
       <Table
         headers={[
@@ -70,10 +85,10 @@ export default function Users() {
           'Bloodgroup',
           'EyeColor',
         ]}
-        data={usersData.users}
+        data={!filteredUsers ? usersData.users : filteredUsers}
         renderRow={renderUserRow}
       />
-      <Pagination totalPages={totalPages} onPageChange={handlePageChange} />
+      {!searchValue ? <Pagination totalPages={totalPages} onPageChange={handlePageChange} /> : ''}
     </div>
   );
 }

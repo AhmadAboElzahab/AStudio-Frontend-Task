@@ -1,7 +1,12 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { BiSearchAlt } from 'react-icons/bi';
 
-export default function Search() {
+interface SearchInputProps {
+  value: string;
+  onChange: (value: string) => void;
+}
+
+const Search: React.FC<SearchInputProps> = ({ value, onChange }) => {
   const [show, setShow] = useState(false);
 
   return (
@@ -13,6 +18,8 @@ export default function Search() {
         } w-0 h-full px-2 py-1`}
         placeholder='Search...'
         style={{ minWidth: show ? '150px' : '0px' }}
+        value={value}
+        onChange={(e) => onChange(e.target.value)} // Use e.target.value to get the input value
       />
       <button
         className='absolute inset-y-0 right-2 flex items-center justify-center bg-transparent border-none outline-none focus:outline-none focus:ring-0'
@@ -22,4 +29,6 @@ export default function Search() {
       </button>
     </div>
   );
-}
+};
+
+export default Search;
