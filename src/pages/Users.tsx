@@ -1,23 +1,23 @@
-import React, { useEffect, useState } from 'react';
-import { UserData, User } from '../types/type';
-import customAxios from '../lib/axios';
+import { useEffect } from 'react';
+import { User } from '../types/type';
 import Table from '../components/Table';
-
+import { useUserContext } from '../hooks/useUsers';
+import customAxios from '../lib/axios';
 export default function Users() {
-  const [users, setUsers] = useState<UserData>({ users: [], total: 0, skip: 0, limit: 0 });
+  const { state: usersData, dispatch: usersDispatch } = useUserContext();
 
   useEffect(() => {
     const fetchUsers = async () => {
       try {
         const response = await customAxios.get('/users');
-        setUsers(response.data);
+        usersDispatch({ type: 'SET_USERS', payload: response.data });
       } catch (error) {
         console.error('Error fetching users:', error);
       }
     };
 
     fetchUsers();
-  }, []);
+  }, [usersDispatch]);
 
   const renderUserRow = (user: User, index: number) => {
     return (
@@ -37,21 +37,23 @@ export default function Users() {
 
   return (
     <div>
-      <Table
-        headers={[
-          'First Name',
-          'Last Name',
-          'Maiden Name',
-          'Age',
-          'Gender',
-          'Email',
-          'Username',
-          'Bloodgroup',
-          'EyeColor',
-        ]}
-        data={users.users}
-        renderRow={renderUserRow}
-      />
+      {
+        <Table
+          headers={[
+            'First Name',
+            'Last Name',
+            'Maiden Name',
+            'Age',
+            'Gender',
+            'Email',
+            'Username',
+            'Bloodgroup',
+            'EyeColor',
+          ]}
+          data={usersData.users}
+          renderRow={renderUserRow}
+        />
+      }
     </div>
   );
 }

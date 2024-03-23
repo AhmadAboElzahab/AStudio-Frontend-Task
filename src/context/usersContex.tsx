@@ -23,7 +23,7 @@ export const usersReducer = (state: UserData, action: { type: string; payload: a
     case 'SET_USERS':
       return {
         ...state,
-        users: action.payload,
+        users: action.payload.users,
       };
     case 'SET_TOTAL':
       return {
