@@ -1,11 +1,11 @@
-import { UsersContext } from '../context/userContext';
+import { productsContext } from '../context/productContext';
 import { useContext } from 'react';
 
-export const useUserContext = () => {
-  const context = useContext(UsersContext);
+export const useProductContext = () => {
+  const context = useContext(productsContext);
 
   if (!context) {
-    throw Error('useUsers must be used inside  Users Context');
+    throw Error('useProducts must be used inside  Products Context');
   }
 
   return context;

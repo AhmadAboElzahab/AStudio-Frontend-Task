@@ -57,7 +57,7 @@ interface productsContextProviderProps {
   children: React.ReactNode;
 }
 
-export const productsContextProvider: React.FC<productsContextProviderProps> = ({ children }) => {
+export const ProductsContextProvider: React.FC<productsContextProviderProps> = ({ children }) => {
   const [state, dispatch] = useReducer(productsReducer, initialState);
 
   return <productsContext.Provider value={{ state, dispatch }}>{children}</productsContext.Provider>;
