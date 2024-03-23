@@ -2,12 +2,11 @@ import React from 'react';
 
 type TableProps = {
   headers: string[];
-  size: number;
   data: unknown[];
   renderRow: (item: any, index: number) => React.ReactNode;
 };
 
-export default function Table({ headers, data, renderRow, size }: TableProps) {
+export default function Table({ headers, data, renderRow }: TableProps) {
   return (
     <div>
       <table className='w-full text-left '>
@@ -24,7 +23,7 @@ export default function Table({ headers, data, renderRow, size }: TableProps) {
           </tr>
         </thead>
         <tbody>
-          {data.slice(0, size).map((item, index) => (
+          {data.map((item, index) => (
             <tr key={index} className='hover:bg-grey'>
               {renderRow(item, index)}
             </tr>

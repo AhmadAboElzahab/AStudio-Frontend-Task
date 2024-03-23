@@ -39,7 +39,6 @@ export default function Products() {
   return (
     <div>
       <Table
-        size={10}
         headers={['Title', 'Category', 'Price', 'Rating', 'Stock']}
         data={products.products}
         renderRow={renderProductRow}

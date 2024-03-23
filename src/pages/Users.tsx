@@ -10,7 +10,7 @@ export default function Users() {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await customAxios.get('/users');
+        const response = await customAxios.get(`/users?limit=${usersData.size}`);
         usersDispatch({ type: 'SET_USERS', payload: response.data });
       } catch (error) {
         console.error('Error fetching users:', error);
@@ -18,7 +18,7 @@ export default function Users() {
     };
 
     fetchUsers();
-  }, [usersDispatch]);
+  }, [usersData.size, usersDispatch]);
 
   const renderUserRow = (user: User, index: number) => {
     return (
@@ -41,7 +41,6 @@ export default function Users() {
       <PageSize />
       {
         <Table
-          size={usersData?.size ?? 5}
           headers={[
             'First Name',
             'Last Name',
