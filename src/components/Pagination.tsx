@@ -35,7 +35,7 @@ const Pagination: React.FC<PaginationProps> = ({ totalPages, onPageChange }) => 
   return (
     <div className='flex justify-center p-10'>
       <button
-        className={`mr-2 h-10 pb-5 ${currentPage === 1 ? 'hidden' : ''}`}
+        className={`mr-2 h-10 pb-5 ${currentPage === 1 ? 'text-grey' : ''}`}
         onClick={goToPreviousPage}
         disabled={currentPage === 1}
       >
@@ -43,16 +43,22 @@ const Pagination: React.FC<PaginationProps> = ({ totalPages, onPageChange }) => 
       </button>
       {start > 1 && (
         <>
-          <span className='mr-2 cursor-pointer' onClick={() => onPageChange(1)}>
+          <span
+            className='mr-7 cursor-pointer'
+            onClick={() => {
+              onPageChange(1);
+              setCurrentPage(1);
+            }}
+          >
             1
           </span>
-          <span className='mr-2'>...</span>
+          <span className='mr-7'>___</span>
         </>
       )}
       {[...Array(end - start + 1)].map((_, index) => (
         <span
           key={start + index}
-          className={`mr-2 cursor-pointer${start + index === currentPage ? ' font-bold text-lg scale-125 h-10 pb-20' : ''}`}
+          className={`mr-7 cursor-pointer${start + index === currentPage ? ' font-bold text-lg scale-125 h-10 pb-20' : ''}`}
           onClick={() => {
             onPageChange(start + index);
             setCurrentPage(start + index);
@@ -63,14 +69,20 @@ const Pagination: React.FC<PaginationProps> = ({ totalPages, onPageChange }) => 
       ))}
       {end < totalPages && (
         <>
-          <span className='mr-2'>...</span>
-          <span className='mr-2 cursor-pointer' onClick={() => onPageChange(totalPages)}>
+          <span className='mr-7'>___</span>
+          <span
+            className='mr-7 cursor-pointer'
+            onClick={() => {
+              onPageChange(totalPages);
+              setCurrentPage(totalPages);
+            }}
+          >
             {totalPages}
           </span>
         </>
       )}
       <button
-        className={`ml-2 h-10 pb-5 ${currentPage === totalPages ? 'hidden' : ''}`}
+        className={`ml-2 h-10 pb-5 ${currentPage === totalPages ? 'text-grey' : ''}`}
         onClick={goToNextPage}
         disabled={currentPage === totalPages}
       >
