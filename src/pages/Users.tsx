@@ -44,6 +44,9 @@ export default function Users() {
         <td>{user.username}</td>
         <td>{user.bloodGroup}</td>
         <td>{user.eyeColor}</td>
+        <td>{user.university}</td>
+        <td>{user.birthDate}</td>
+        <td>{user.phone}</td>
       </>
     );
   };
@@ -84,6 +87,9 @@ export default function Users() {
           'Username',
           'Bloodgroup',
           'EyeColor',
+          'university',
+          'birthDate',
+          'phone',
         ]}
         data={!filteredUsers ? usersData.users : filteredUsers}
         renderRow={renderUserRow}

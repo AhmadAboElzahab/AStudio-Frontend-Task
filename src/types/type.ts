@@ -10,6 +10,8 @@ interface User {
   username: string;
   bloodGroup: string;
   eyeColor: string;
+  birthDate: string;
+  university: string;
 }
 type UserData = {
   users: User[];

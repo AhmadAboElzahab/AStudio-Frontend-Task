@@ -8,14 +8,14 @@ type TableProps = {
 
 export default function Table({ headers, data, renderRow }: TableProps) {
   return (
-    <div>
-      <table className='w-full text-left '>
+    <div className='flex justify-center'>
+      <table className='w-full text-left  '>
         <thead>
           <tr>
             {headers.map((header, index) => (
               <th
                 key={index}
-                className='w-fit border px-[20px] py-3 border-gray bg-blue uppercase   text-nowrap font-semibold '
+                className='w-fit border  px-[10px] py-3 border-gray bg-blue uppercase   text-nowrap font-semibold '
               >
                 {header}
               </th>
