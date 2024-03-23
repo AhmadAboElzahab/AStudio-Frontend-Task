@@ -35,6 +35,7 @@ type ProductData = {
   total: number;
   skip: number;
   limit: number;
+  size?: number;
 };
 
 export type { User, UserData, Product, ProductData };
