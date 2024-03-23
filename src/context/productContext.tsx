@@ -19,9 +19,12 @@ export const productsContext = createContext<productsContextType>({
   dispatch: () => null,
 });
 
-export const productsReducer = (state: ProductData, action: { type: string; payload: any }): ProductData => {
+export const productsReducer = (
+  state: ProductData,
+  action: { type: string; payload: any },
+): ProductData => {
   switch (action.type) {
-    case 'SET_products':
+    case 'SET_PRODUCTS':
       return {
         ...state,
         products: action.payload.products,
@@ -60,5 +63,7 @@ interface productsContextProviderProps {
 export const ProductsContextProvider: React.FC<productsContextProviderProps> = ({ children }) => {
   const [state, dispatch] = useReducer(productsReducer, initialState);
 
-  return <productsContext.Provider value={{ state, dispatch }}>{children}</productsContext.Provider>;
+  return (
+    <productsContext.Provider value={{ state, dispatch }}>{children}</productsContext.Provider>
+  );
 };
