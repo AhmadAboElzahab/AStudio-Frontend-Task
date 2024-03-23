@@ -3,6 +3,7 @@ import { User } from '../types/type';
 import Table from '../components/Table';
 import { useUserContext } from '../hooks/useUsers';
 import customAxios from '../lib/axios';
+import PageSize from '../components/PageSize';
 export default function Users() {
   const { state: usersData, dispatch: usersDispatch } = useUserContext();
 
@@ -37,8 +38,10 @@ export default function Users() {
 
   return (
     <div>
+      <PageSize />
       {
         <Table
+          size={usersData?.size ?? 5}
           headers={[
             'First Name',
             'Last Name',

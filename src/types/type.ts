@@ -16,6 +16,7 @@ type UserData = {
   total: number;
   skip: number;
   limit: number;
+  size?: number;
 };
 
 interface Product {

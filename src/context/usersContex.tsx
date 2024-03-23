@@ -11,6 +11,7 @@ const initialState: UserData = {
   total: 0,
   skip: 0,
   limit: 5,
+  size: 5,
 };
 
 export const UsersContext = createContext<UsersContextType>({
@@ -40,6 +41,12 @@ export const usersReducer = (state: UserData, action: { type: string; payload: a
         ...state,
         limit: action.payload,
       };
+    case 'SET_SIZE':
+      return {
+        ...state,
+        size: action.payload,
+      };
+
     default:
       return state;
   }
