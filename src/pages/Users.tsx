@@ -16,7 +16,7 @@ export default function Users() {
     const fetchUsers = async () => {
       try {
         const response = await customAxios.get(
-          `/users?limit=${searchValue ? 0 : usersData.size}&skip=${searchValue ? 0 : (usersData.skip - 1) * (usersData.size ?? 5)}`,
+          `/users?limit=${usersData.size}&skip=${(usersData.skip - 1) * (usersData.size ?? 5)}`,
         );
         usersDispatch({ type: 'SET_USERS', payload: response.data });
       } catch (error) {
@@ -59,8 +59,16 @@ export default function Users() {
     (user) =>
       user.firstName.toLowerCase().includes(searchValue.toLowerCase()) ||
       user.lastName.toLowerCase().includes(searchValue.toLowerCase()) ||
+      user.maidenName.toLowerCase().includes(searchValue.toLowerCase()) ||
+      user.age.toString().toLowerCase().includes(searchValue.toLowerCase()) ||
+      user.gender.toLowerCase().includes(searchValue.toLowerCase()) ||
       user.email.toLowerCase().includes(searchValue.toLowerCase()) ||
-      user.username.toLowerCase().includes(searchValue.toLowerCase()),
+      user.username.toLowerCase().includes(searchValue.toLowerCase()) ||
+      user.bloodGroup.toLowerCase().includes(searchValue.toLowerCase()) ||
+      user.eyeColor.toLowerCase().includes(searchValue.toLowerCase()) ||
+      user.university.toLowerCase().includes(searchValue.toLowerCase()) ||
+      user.phone.toLowerCase().includes(searchValue.toLowerCase()) ||
+      user.birthDate.toLowerCase().includes(searchValue.toLowerCase()),
   );
   const handleSearchChange = (newValue: string) => {
     setSearchValue(newValue);
@@ -68,11 +76,7 @@ export default function Users() {
   return (
     <div>
       <div className='flex gap-4 my-10'>
-        {!searchValue ? (
-          <PageSize data={usersData.size ?? 5} onPageSizeChange={onPageSizeChange} />
-        ) : (
-          ''
-        )}
+        <PageSize data={usersData.size ?? 5} onPageSizeChange={onPageSizeChange} />
 
         <Search value={searchValue} onChange={handleSearchChange} />
       </div>
@@ -94,7 +98,7 @@ export default function Users() {
         data={!filteredUsers ? usersData.users : filteredUsers}
         renderRow={renderUserRow}
       />
-      {!searchValue ? <Pagination totalPages={totalPages} onPageChange={handlePageChange} /> : ''}
+      <Pagination totalPages={totalPages} onPageChange={handlePageChange} />
     </div>
   );
 }
