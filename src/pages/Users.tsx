@@ -6,12 +6,13 @@ import customAxios from '../lib/axios';
 import PageSize from '../components/PageSize';
 import Pagination from '../components/Pagination';
 import Search from '../components/Search';
+import FilterOption from '../components/Filters';
 
 export default function Users() {
   const { state: usersData, dispatch: usersDispatch } = useUserContext();
   const [searchValue, setSearchValue] = useState('');
-  const [selectedOption, setSelectedOption] = useState(null);
-  const filters = ['Firstname', 'Email', 'Birthdate', 'Gender'];
+  const [selectedOption, setSelectedOption] = useState('');
+  const filters = ['firstName', 'Email', 'Birthdate', 'Gender'];
   const handleCheckboxChange = (event: any) => {
     const value = event.target.value;
     setSelectedOption(value === selectedOption ? null : value);
@@ -87,24 +88,11 @@ export default function Users() {
       <div className='flex gap-4 my-10'>
         <PageSize data={usersData.size ?? 5} onPageSizeChange={onPageSizeChange} />
         <Search value={searchValue} onChange={handleSearchChange} />
-        <div className='flex pt-1'>
-          {filters.map((item, index) => (
-            <label
-              key={index}
-              className={`${selectedOption === item.toLowerCase() ? 'bg-grey' : ''} px-4 py-2 rounded hover:cursor-pointer`}
-            >
-              <input
-                className='hidden'
-                type='checkbox'
-                name={item.toLowerCase()}
-                value={item.toLowerCase()}
-                checked={selectedOption === item.toLowerCase()}
-                onChange={handleCheckboxChange}
-              />
-              {item}
-            </label>
-          ))}
-        </div>
+        <FilterOption
+          filters={filters}
+          selectedOption={selectedOption}
+          handleCheckboxChange={handleCheckboxChange}
+        />
       </div>
       <Table
         headers={[
