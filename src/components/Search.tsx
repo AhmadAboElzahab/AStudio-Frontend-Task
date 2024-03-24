@@ -19,7 +19,7 @@ const Search: React.FC<SearchInputProps> = ({ value, onChange }) => {
         placeholder='Search...'
         style={{ minWidth: show ? '150px' : '0px' }}
         value={value}
-        onChange={(e) => onChange(e.target.value)} // Use e.target.value to get the input value
+        onChange={(e) => onChange(e.target.value)} 
       />
       <button
         className='absolute inset-y-0 right-2 flex items-center justify-center bg-transparent border-none outline-none focus:outline-none focus:ring-0'

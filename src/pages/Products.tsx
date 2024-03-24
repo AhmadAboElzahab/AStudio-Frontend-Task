@@ -14,8 +14,12 @@ export default function Products() {
   const [searchValue, setSearchValue] = useState('');
   const filters = ['All', 'laptops'];
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
-
   const [selectedOption, setSelectedOption] = useState('');
+  const totalPages = Math.ceil(100 / (productData.size ?? 5));
+
+  const handlePageChange = (page: number) => {
+    productDispatch({ type: 'SET_SKIP', payload: page });
+  };
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
     setSelectedOption(value === selectedOption ? '' : value);
@@ -27,26 +31,6 @@ export default function Products() {
     productDispatch({ type: 'SET_SIZE', payload: newSize });
     productDispatch({ type: 'SET_SKIP', payload: 0 });
   };
-  const totalPages = Math.ceil(100 / (productData.size ?? 5));
-  const handlePageChange = (page: number) => {
-    productDispatch({ type: 'SET_SKIP', payload: page });
-  };
-
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        let apiUrl = `/products?limit=${productData.size}&skip=${(productData.skip - 1) * (productData.size ?? 5)}`;
-
-        const response = await customAxios.get(apiUrl);
-
-        productDispatch({ type: 'SET_PRODUCTS', payload: response.data });
-      } catch (error) {
-        console.error('Error fetching products:', error);
-      }
-    };
-
-    fetchProducts();
-  }, [selectedOption, searchValue, productData.skip, productData.size, productDispatch]);
 
   const filteredProducts =
     productData.products?.filter((product) => {
@@ -74,7 +58,6 @@ export default function Products() {
       return sortOrderMultiplier * valueA.localeCompare(valueB);
     });
     setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
-
     productDispatch({
       type: 'SET_PRODUCTS',
       payload: {
@@ -98,7 +81,19 @@ export default function Products() {
       </>
     );
   };
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        let apiUrl = `/products?limit=${productData.size}&skip=${(productData.skip - 1) * (productData.size ?? 5)}`;
+        const response = await customAxios.get(apiUrl);
+        productDispatch({ type: 'SET_PRODUCTS', payload: response.data });
+      } catch (error) {
+        console.error('Error fetching products:', error);
+      }
+    };
 
+    fetchProducts();
+  }, [selectedOption, searchValue, productData.skip, productData.size, productDispatch]);
   return (
     <div>
       <div className='flex gap-4 my-10'>

@@ -13,35 +13,22 @@ export default function Users() {
   const [searchValue, setSearchValue] = useState('');
   const [selectedOption, setSelectedOption] = useState('');
   const filters = ['firstName', 'Email', 'Birthdate', 'Gender'];
+  const totalPages = Math.ceil(100 / (usersData.size ?? 5));
+
+  const handlePageChange = (page: number) => {
+    usersDispatch({ type: 'SET_SKIP', payload: page });
+  };
+  const handleSearchChange = (newValue: string) => {
+    setSearchValue(newValue);
+  };
   const handleCheckboxChange = (event: any) => {
     const value = event.target.value;
     setSelectedOption(value === selectedOption ? null : value);
   };
-  useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        let apiUrl = `/users?limit=${usersData.size}&skip=${(usersData.skip - 1) * (usersData.size ?? 5)}`;
-
-        if (selectedOption) {
-          apiUrl = `/users/filter?key=${selectedOption}&value=${searchValue}&limit=${usersData.size}&skip=${(usersData.skip - 1) * (usersData.size ?? 5)}`;
-        }
-
-        const response = await customAxios.get(apiUrl);
-
-        usersDispatch({ type: 'SET_USERS', payload: response.data });
-      } catch (error) {
-        console.error('Error fetching users:', error);
-      }
-    };
-
-    fetchUsers();
-  }, [selectedOption, searchValue, usersData.skip, usersData.size, usersDispatch]);
-
   const onPageSizeChange = (newSize: string) => {
     usersDispatch({ type: 'SET_SIZE', payload: newSize });
     usersDispatch({ type: 'SET_SKIP', payload: 0 });
   };
-
   const renderUserRow = (user: User) => {
     return (
       <>
@@ -61,10 +48,6 @@ export default function Users() {
     );
   };
 
-  const totalPages = Math.ceil(100 / (usersData.size ?? 5));
-  const handlePageChange = (page: number) => {
-    usersDispatch({ type: 'SET_SKIP', payload: page });
-  };
   const filteredUsers = usersData.users.filter(
     (user) =>
       user.firstName.toLowerCase().includes(searchValue.toLowerCase()) ||
@@ -80,9 +63,40 @@ export default function Users() {
       user.phone.toLowerCase().includes(searchValue.toLowerCase()) ||
       user.birthDate.toLowerCase().includes(searchValue.toLowerCase()),
   );
-  const handleSearchChange = (newValue: string) => {
-    setSearchValue(newValue);
-  };
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        let apiUrl = `/users?limit=${usersData.size}&skip=${(usersData.skip - 1) * (usersData.size ?? 5)}`;
+        if (selectedOption) {
+          apiUrl = `/users/filter?key=${selectedOption}&value=${searchValue}&limit=${usersData.size}&skip=${(usersData.skip - 1) * (usersData.size ?? 5)}`;
+        }
+        const response = await customAxios.get(apiUrl);
+        usersDispatch({ type: 'SET_USERS', payload: response.data });
+      } catch (error) {
+        console.error('Error fetching users:', error);
+      }
+    };
+
+    fetchUsers();
+  }, [selectedOption, searchValue, usersData.skip, usersData.size, usersDispatch]);
+
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        let apiUrl = `/users?limit=${usersData.size}&skip=${(usersData.skip - 1) * (usersData.size ?? 5)}`;
+        if (selectedOption) {
+          apiUrl = `/users/filter?key=${selectedOption}&value=${searchValue}&limit=${usersData.size}&skip=${(usersData.skip - 1) * (usersData.size ?? 5)}`;
+        }
+        const response = await customAxios.get(apiUrl);
+        usersDispatch({ type: 'SET_USERS', payload: response.data });
+      } catch (error) {
+        console.error('Error fetching users:', error);
+      }
+    };
+
+    fetchUsers();
+  }, [selectedOption, searchValue, usersData.skip, usersData.size, usersDispatch]);
+
   return (
     <div>
       <div className='flex gap-4 my-10'>
